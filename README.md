@@ -1,7 +1,8 @@
 # ETCD puppet module
 
 This puppet module manages [etcd](https://etcd.io).
-It uses package-based install method.
+It currently uses the operating system's package manager to install the required software.
+Repo management is not supported.
 
 ## Usage
 
