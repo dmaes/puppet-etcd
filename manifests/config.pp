@@ -1,4 +1,9 @@
 #
+# @summary
+#   This class handles the etcd configuration file
+#
+# @api private
+#
 class etcd::config {
   assert_private()
 
