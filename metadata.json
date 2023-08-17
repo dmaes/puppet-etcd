@@ -2,9 +2,9 @@
   "name": "dmaes-etcd",
   "version": "0.1.0",
   "author": "dmaes",
-  "summary": "",
+  "summary": "Puppet module for package-based etcd installs",
   "license": "Apache-2.0",
-  "source": "",
+  "source": "https://github.com/dmaes/puppet-etcd",
   "dependencies": [
     {
       "name": "puppetlabs-stdlib",
