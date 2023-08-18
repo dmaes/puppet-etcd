@@ -38,17 +38,17 @@
 #   The name of the service
 #   Default: 'etcd'
 class etcd (
-  Array[String] $package_names = ['etcd'],
-  Variant[Hash, String] $config = {
+  Array[String]         $package_names     = ['etcd'],
+  Variant[Hash, String] $config            = {
     'name'     => $facts['networking']['fqdn'],
     'data-dir' => '/var/lib/etcd',
   }, # Set empty to not manage config
-  Stdlib::Unixpath $config_dir = '/etc/etcd',
-  String $config_file = 'config.yaml',
-  Boolean $manage_config_dir = ($config_dir != '/etc'),
-  Boolean $purge_config_dir = $manage_config_dir,
-  Boolean $manage_service = true,
-  String $service_name = 'etcd',
+  Stdlib::Unixpath      $config_dir        = '/etc/etcd',
+  String                $config_file       = 'config.yaml',
+  Boolean               $manage_config_dir = ($config_dir != '/etc'),
+  Boolean               $purge_config_dir  = $manage_config_dir,
+  Boolean               $manage_service    = true,
+  String                $service_name      = 'etcd',
 ) {
   contain etcd::install
   contain etcd::config

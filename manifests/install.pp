@@ -1,4 +1,10 @@
 #
+# @summary
+#   This class handles the etcd installation using the
+#   operating system's package manager
+#
+# @api private
+#
 class etcd::install {
   assert_private()
 
