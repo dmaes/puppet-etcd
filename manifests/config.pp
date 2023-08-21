@@ -33,6 +33,7 @@ class etcd::config {
   file { '/etc/puppetlabs/puppet/etcdctl.yaml':
     ensure  => file,
     mode    => '0640',
+    owner   => 'root',
     content => stdlib::to_yaml({ env => $etcd::etcdctl_env }),
   }
 
@@ -40,6 +41,7 @@ class etcd::config {
     file { '/etc/profile.d/etcdctl.sh':
       ensure  => file,
       mode    => '0640',
+      owner   => 'root',
       content => epp("${module_name}/etcdctl.env.epp", {
           env => $etcd::etcdctl_env,
       }),
