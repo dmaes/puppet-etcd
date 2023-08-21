@@ -10,6 +10,7 @@ class Puppet::Provider::Etcdctl < Puppet::Provider
   def self.cfg_file
     file = '/etc/puppetlabs/puppet/etcdctl.yaml'
     confine exists: file
+    file
   end
 
   commands cmd_etcdctl: '/usr/bin/etcdctl'
