@@ -37,18 +37,40 @@
 # @param service_name
 #   The name of the service
 #   Default: 'etcd'
+#
+# @param etcdctl_env
+#   Environment variables to use for etcdctl
+#   Also used for the custom providers
+#   Default: {}
+#
+#   Example for etcd with auth and TLS enabled:
+#   ```
+#   {
+#     'ETCDCTL_INSECURE_TRANSPORT': 'false',
+#     'ETCDCTL_USER': 'root',
+#     'ETCDCTL_PASSWORD': 'Root123!',
+#   }
+#   ```
+#
+# @param manage_etcdctl_profile
+#   Wether to manage /etc/profile.d/etcdctl.sh,
+#   containing the env vars from $etcdctl_env.
+#   Default: true
+#
 class etcd (
-  Array[String]         $package_names     = ['etcd'],
-  Variant[Hash, String] $config            = {
+  Array[String]         $package_names          = ['etcd'],
+  Variant[Hash, String] $config                 = {
     'name'     => $facts['networking']['fqdn'],
     'data-dir' => '/var/lib/etcd',
   }, # Set empty to not manage config
-  Stdlib::Unixpath      $config_dir        = '/etc/etcd',
-  String                $config_file       = 'config.yaml',
-  Boolean               $manage_config_dir = ($config_dir != '/etc'),
-  Boolean               $purge_config_dir  = $manage_config_dir,
-  Boolean               $manage_service    = true,
-  String                $service_name      = 'etcd',
+  Stdlib::Unixpath      $config_dir             = '/etc/etcd',
+  String                $config_file            = 'config.yaml',
+  Boolean               $manage_config_dir      = ($config_dir != '/etc'),
+  Boolean               $purge_config_dir       = $manage_config_dir,
+  Boolean               $manage_service         = true,
+  String                $service_name           = 'etcd',
+  Hash[String, String]  $etcdctl_env            = {},
+  Boolean               $manage_etcdctl_profile = true,
 ) {
   contain etcd::install
   contain etcd::config
