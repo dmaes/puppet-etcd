@@ -5,7 +5,7 @@
 # @api private
 #
 class etcd::auth {
-  ensure_private()
+  assert_private()
 
   Etcd_role {
     before => Exec['etcd::auth'],
