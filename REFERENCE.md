@@ -19,6 +19,10 @@ and does not download binaries from a release page.
 operating system's package manager
 * `etcd::service`: This class manages the etcd systemd service
 
+### Resource types
+
+* [`etcd_role`](#etcd_role): @summary Manage an etcd role
+
 ## Classes
 
 ### <a name="etcd"></a>`etcd`
@@ -39,6 +43,8 @@ The following parameters are available in the `etcd` class:
 * [`purge_config_dir`](#-etcd--purge_config_dir)
 * [`manage_service`](#-etcd--manage_service)
 * [`service_name`](#-etcd--service_name)
+* [`etcdctl_env`](#-etcd--etcdctl_env)
+* [`manage_etcdctl_profile`](#-etcd--manage_etcdctl_profile)
 
 ##### <a name="-etcd--package_names"></a>`package_names`
 
@@ -121,4 +127,64 @@ The name of the service
 Default: 'etcd'
 
 Default value: `'etcd'`
+
+##### <a name="-etcd--etcdctl_env"></a>`etcdctl_env`
+
+Data type: `Hash[String, String]`
+
+Environment variables to use for etcdctl
+Also used for the custom providers
+Default: {}
+
+Example for etcd with auth and TLS enabled:
+```
+{
+  'ETCDCTL_INSECURE_TRANSPORT': 'false',
+  'ETCDCTL_USER': 'root',
+  'ETCDCTL_PASSWORD': 'Root123!',
+}
+```
+
+Default value: `{}`
+
+##### <a name="-etcd--manage_etcdctl_profile"></a>`manage_etcdctl_profile`
+
+Data type: `Boolean`
+
+Wether to manage /etc/profile.d/etcdctl.sh,
+containing the env vars from $etcdctl_env.
+Default: true
+
+Default value: `true`
+
+## Resource types
+
+### <a name="etcd_role"></a>`etcd_role`
+
+@summary
+Manage an etcd role
+
+#### Properties
+
+The following properties are available in the `etcd_role` type.
+
+##### `ensure`
+
+Valid values: `present`, `absent`
+
+The basic property that the resource should be in.
+
+Default value: `present`
+
+#### Parameters
+
+The following parameters are available in the `etcd_role` type.
+
+* [`name`](#-etcd_role--name)
+
+##### <a name="-etcd_role--name"></a>`name`
+
+namevar
+
+The name of the role.
 
