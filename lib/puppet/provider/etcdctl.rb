@@ -7,9 +7,11 @@ require 'yaml'
 class Puppet::Provider::Etcdctl < Puppet::Provider
   initvars
 
-  cfg_file = '/etc/puppetlabs/puppet/etcdctl.yaml'
+  def self.cfg_file
+    file = '/etc/puppetlabs/puppet/etcdctl.yaml'
+    confine exists: file
+  end
 
-  confine exists: cfg_file
   commands cmd_etcdctl: '/usr/bin/etcdctl'
 
   def self.etcdctl(args)
