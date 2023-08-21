@@ -14,6 +14,7 @@ Puppet::Type.type(:etcd_role).provide(:etcdctl, parent: Puppet::Provider::Etcdct
         name: role_name,
       )
     end
+    instances
   end
 
   def self.prefetch(resources)
