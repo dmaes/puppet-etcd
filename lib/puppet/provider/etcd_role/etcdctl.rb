@@ -2,7 +2,7 @@
 
 require_relative('../etcdctl')
 
-Puppet::Type.type(:etcd_role).provider(:etcdctl, parent: Puppet::Provider::Etcdctl) do
+Puppet::Type.type(:etcd_role).provide(:etcdctl, parent: Puppet::Provider::Etcdctl) do
   desc 'Manages etcd roles'
 
   def self.instances
