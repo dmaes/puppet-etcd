@@ -11,7 +11,7 @@ class etcd::auth {
     before => Exec['etcd::auth'],
   }
 
-  create_roles('etcd_role', $etcd::roles)
+  create_resources('etcd_role', $etcd::roles)
 
   $auth_disabled = "etcdctl auth status | grep 'Authentication Status: false'"
   $env = $etcd::etcdctl_env.map |$key, $value| { "${key}='${value}'" }
