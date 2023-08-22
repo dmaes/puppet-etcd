@@ -15,7 +15,7 @@ class etcd::auth {
 
   $env_list = $etcd::etcdctl_env.map |$key, $value| { "${key}='${value}'" }
   $env = join($env_list, ' ')
-  $etcdctl = "${env} etcdctl"
+  $etcdctl = "env ${env} etcdctl"
   $auth_disabled = "${etcdctl} auth status | grep 'Authentication Status: false'"
 
   if $etcd::auth {
