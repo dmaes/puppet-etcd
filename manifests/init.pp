@@ -85,6 +85,7 @@ class etcd (
 ) {
   contain etcd::install
   contain etcd::config
+  contain etcd::service
   contain etcd::auth
 
   Class['etcd::install']
