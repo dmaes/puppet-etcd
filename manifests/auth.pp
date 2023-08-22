@@ -13,22 +13,22 @@ class etcd::auth {
 
   create_resources('etcd_role', $etcd::roles)
 
-  $auth_disabled = "etcdctl auth status | grep 'Authentication Status: false'"
-  $env = $etcd::etcdctl_env.map |$key, $value| { "${key}='${value}'" }
+  $env_list = $etcd::etcdctl_env.map |$key, $value| { "${key}='${value}'" }
+  $env = join($env_list, ' ')
+  $etcdctl = "${env} etcdctl"
+  $auth_disabled = "${etcdctl} auth status | grep 'Authentication Status: false'"
 
   if $etcd::auth {
     exec { 'etcd::auth':
-      path        => $facts['path'],
-      environment => $env,
-      command     => 'etcdctl auth enable',
-      onlyif      => $auth_disabled,
+      path    => $facts['path'],
+      command => "${etcdctl} auth enable",
+      onlyif  => $auth_disabled,
     }
   } else {
     exec { 'etcd::auth':
-      path        => $facts['path'],
-      environment => $env,
-      command     => 'etcdctl auth disable',
-      unless      => $auth_disabled,
+      path    => $facts['path'],
+      command => "${etcdctl} auth disable",
+      unless  => $auth_disabled,
     }
   }
 }
