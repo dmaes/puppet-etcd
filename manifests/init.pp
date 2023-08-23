@@ -57,6 +57,19 @@
 #   containing the env vars from $etcdctl_env.
 #   Default: true
 #
+# @param auth
+#   Enable/disable auth.
+#   Must add credentials to $etcdctl_env when enabled, to keep using types/providers.
+#   Default: false
+#
+# @param roles
+#   `etcd_role` resources to create.
+#   Default: {}
+#
+# @param purge_roles
+#   Wether to purge unmanaged roles or not
+#   Default: true
+#
 class etcd (
   Array[String]         $package_names          = ['etcd'],
   Variant[Hash, String] $config                 = {
@@ -71,12 +84,17 @@ class etcd (
   String                $service_name           = 'etcd',
   Hash[String, String]  $etcdctl_env            = {},
   Boolean               $manage_etcdctl_profile = true,
+  Boolean               $auth                   = false,
+  Hash[String, Hash]    $roles                  = {},
+  Boolean               $purge_roles            = true,
 ) {
   contain etcd::install
   contain etcd::config
   contain etcd::service
+  contain etcd::auth
 
   Class['etcd::install']
   -> Class['etcd::config']
   -> Class['etcd::service']
+  -> Class['etcd::auth']
 }

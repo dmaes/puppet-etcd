@@ -14,6 +14,7 @@ and does not download binaries from a release page.
 
 #### Private Classes
 
+* `etcd::auth`: This class enables or disables auth
 * `etcd::config`: This class handles the etcd configuration file
 * `etcd::install`: This class handles the etcd installation using the
 operating system's package manager
@@ -45,6 +46,9 @@ The following parameters are available in the `etcd` class:
 * [`service_name`](#-etcd--service_name)
 * [`etcdctl_env`](#-etcd--etcdctl_env)
 * [`manage_etcdctl_profile`](#-etcd--manage_etcdctl_profile)
+* [`auth`](#-etcd--auth)
+* [`roles`](#-etcd--roles)
+* [`purge_roles`](#-etcd--purge_roles)
 
 ##### <a name="-etcd--package_names"></a>`package_names`
 
@@ -157,6 +161,34 @@ Default: true
 
 Default value: `true`
 
+##### <a name="-etcd--auth"></a>`auth`
+
+Data type: `Boolean`
+
+Enable/disable auth.
+Must add credentials to $etcdctl_env when enabled, to keep using types/providers.
+Default: false
+
+Default value: `false`
+
+##### <a name="-etcd--roles"></a>`roles`
+
+Data type: `Hash[String, Hash]`
+
+`etcd_role` resources to create.
+Default: {}
+
+Default value: `{}`
+
+##### <a name="-etcd--purge_roles"></a>`purge_roles`
+
+Data type: `Boolean`
+
+Wether to purge unmanaged roles or not
+Default: true
+
+Default value: `true`
+
 ## Resource types
 
 ### <a name="etcd_role"></a>`etcd_role`
@@ -181,10 +213,16 @@ Default value: `present`
 The following parameters are available in the `etcd_role` type.
 
 * [`name`](#-etcd_role--name)
+* [`provider`](#-etcd_role--provider)
 
 ##### <a name="-etcd_role--name"></a>`name`
 
 namevar
 
 The name of the role.
+
+##### <a name="-etcd_role--provider"></a>`provider`
+
+The specific backend to use for this `etcd_role` resource. You will seldom need to specify this --- Puppet will usually
+discover the appropriate provider for your platform.
 
