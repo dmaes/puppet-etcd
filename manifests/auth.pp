@@ -13,6 +13,12 @@ class etcd::auth {
 
   create_resources('etcd_role', $etcd::roles)
 
+  if $etcd::purge_roles {
+    resource { 'etcd_role':
+      purge => true,
+    }
+  }
+
   $env_list = $etcd::etcdctl_env.map |$key, $value| { "${key}='${value}'" }
   $env = join($env_list, ' ')
   $etcdctl = "env ${env} ETCDCTL_WRITE_OUT='simple' etcdctl"
