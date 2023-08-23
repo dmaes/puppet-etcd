@@ -29,12 +29,16 @@ Puppet::Type.newtype(:etcd_role_permission) do
   end
 
   validate do
-    raise(_('etcd_role_permission: `role` parameter is required')) if self[:role].nil?
-    raise(_('etcd_role_permission: `key` parameter is required')) if self[:key].nil?
-    raise(_('etcd_role_permission: `permission` parameter is required')) if self[:permission].nil? && self[:ensure] == 'present'
-    raise(_('etcd_role_permission: `name` should be `$role:$key` format')) unless self[:name] == "#{self[:role]}:#{self[:key]}"
-    unless ['read', 'write', 'readwrite'].include? self[:permission]
-      raise(_('etcd_role_permission: `permission` should be one of (read|write|readwrite)'))
+    if self[:ensure] == 'present' || self[:ensure] == 'absent'
+      raise(_('etcd_role_permission: `role` parameter is required')) if self[:role].nil?
+      raise(_('etcd_role_permission: `key` parameter is required')) if self[:key].nil?
+      raise(_('etcd_role_permission: `name` should be `$role:$key` format')) unless self[:name] == "#{self[:role]}:#{self[:key]}"
+    end
+    if self[:ensure] == 'present'
+      raise(_('etcd_role_permission: `permission` parameter is required')) if self[:permission].nil?
+      unless ['read', 'write', 'readwrite'].include? self[:permission]
+        raise(_('etcd_role_permission: `permission` should be one of (read|write|readwrite)'))
+      end
     end
   end
 end
