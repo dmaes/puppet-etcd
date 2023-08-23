@@ -20,8 +20,8 @@ Puppet::Type.type(:etcd_role_permission).provide(:etcdctl, parent: Puppet::Provi
       role = etcdctl(['role', 'get', role_name])
       next unless role.key?('perm')
       role['perm'].each do |perm|
-        key = Base64.decde64(perm['key'])
-        range_end = Base64.decde64(perm['range_end'])
+        key = Base64.decode64(perm['key'])
+        range_end = Base64.decode64(perm['range_end'])
         instances << new(
           ensure: :present,
           name: "#{role_name}:#{key}",
