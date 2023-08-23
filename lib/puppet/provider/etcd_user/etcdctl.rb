@@ -46,10 +46,10 @@ Puppet::Type.type(:etcd_user).provide(:etcdctl, parent: Puppet::Provider::Etcdct
 
   def roles=(roles)
     @property_hash[:roles].each do |role|
-      etcdctl(['user', 'revoke-role', @property_hash[:name], role]) unless roles.contain?(role)
+      etcdctl(['user', 'revoke-role', @property_hash[:name], role]) unless roles.include?(role)
     end
     roles.each do |role|
-      etcdctl(['user', 'grant-role', @property_hash[:name], role]) unless @property_hash[:roles].contain?(role)
+      etcdctl(['user', 'grant-role', @property_hash[:name], role]) unless @property_hash[:roles].include?(role)
     end
     @property_hash[:roles] = roles
   end
