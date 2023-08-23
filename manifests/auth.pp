@@ -14,7 +14,7 @@ class etcd::auth {
   create_resources('etcd_role', $etcd::roles)
 
   if $etcd::purge_roles {
-    resource { 'etcd_role':
+    resources { 'etcd_role':
       purge => true,
     }
   }
