@@ -14,7 +14,7 @@ and does not download binaries from a release page.
 
 #### Private Classes
 
-* `etcd::auth`: This class enables or disables auth
+* `etcd::auth`: This class manages auth-related stuff
 * `etcd::config`: This class handles the etcd configuration file
 * `etcd::install`: This class handles the etcd installation using the
 operating system's package manager

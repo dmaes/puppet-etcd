@@ -1,6 +1,6 @@
 #
 # @summary
-#   This class enables or disables auth
+#   This class manages auth-related stuff
 #
 # @api private
 #
