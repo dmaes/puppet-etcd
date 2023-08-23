@@ -7,7 +7,9 @@ Puppet::Type.type(:etcd_user).provide(:etcdctl, parent: Puppet::Provider::Etcdct
 
   def self.instances
     instances = []
-    etcdctl(['user', 'list'])['users'].each do |user_name|
+    user_list = etcdctl(['user', 'list'])
+    return instances unless user_list.key?('users')
+    user_list['users'].each do |user_name|
       user = etcdctl(['user', 'get', user_name])
       instances << new(
         ensure: :present,

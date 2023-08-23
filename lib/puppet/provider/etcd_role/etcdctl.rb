@@ -7,7 +7,9 @@ Puppet::Type.type(:etcd_role).provide(:etcdctl, parent: Puppet::Provider::Etcdct
 
   def self.instances
     instances = []
-    etcdctl(['role', 'list'])['roles'].each do |role_name|
+    role_list = etcdctl(['role', 'list'])
+    return instances unless role_list.key?('roles')
+    role_list['roles'].each do |role_name|
       # role = etcdctl(['role', 'get', role_name])
       instances << new(
         ensure: :present,
