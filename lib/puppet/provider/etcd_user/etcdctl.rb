@@ -34,6 +34,9 @@ Puppet::Type.type(:etcd_user).provide(:etcdctl, parent: Puppet::Provider::Etcdct
 
   def create
     etcdctl(['user', 'add', @resource[:name], '--no-password'])
+    @resource[:roles].each do |role|
+      etcdctl(['user', 'revoke-role', @resource[:name], role])
+    end
     @property_hash[:ensure] = :present
   end
 
