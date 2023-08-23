@@ -48,6 +48,7 @@ The following parameters are available in the `etcd` class:
 * [`manage_etcdctl_profile`](#-etcd--manage_etcdctl_profile)
 * [`auth`](#-etcd--auth)
 * [`roles`](#-etcd--roles)
+* [`purge_roles`](#-etcd--purge_roles)
 
 ##### <a name="-etcd--package_names"></a>`package_names`
 
@@ -178,6 +179,15 @@ Data type: `Hash[String, Hash]`
 Default: {}
 
 Default value: `{}`
+
+##### <a name="-etcd--purge_roles"></a>`purge_roles`
+
+Data type: `Boolean`
+
+Wether to purge unmanaged roles or not
+Default: true
+
+Default value: `true`
 
 ## Resource types
 
