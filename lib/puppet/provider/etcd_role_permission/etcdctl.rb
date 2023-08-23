@@ -53,7 +53,7 @@ Puppet::Type.type(:etcd_role_permission).provide(:etcdctl, parent: Puppet::Provi
   end
 
   def destroy
-    self.class.revoke(@resource[:role], @resource[:key])
+    self.class.revoke(@property_hash[:role], @property_hash[:key])
     @property_hash.clear
   end
 
@@ -69,11 +69,13 @@ Puppet::Type.type(:etcd_role_permission).provide(:etcdctl, parent: Puppet::Provi
 
   def permission=(permission)
     self.class.revoke(@property_hash[:role], @property_hash[:key])
-    self.class.grant(@property_hash[:role], permission, @property_hash[:key], @resource[:range_end])
+    self.class.grant(@property_hash[:role], permission, @property_hash[:key], @property_hash[:range_end])
+    @property_hash[:permission] = permission
   end
 
   def range_end=(range_end)
-    self.class.revoke(@resource[:role], @resource[:key])
-    self.class.grant(@resource[:role], @resource[:permission], @resource[:key], range_end)
+    self.class.revoke(@property_hash[:role], @property_hash[:key])
+    self.class.grant(@property_hash[:role], @property_hash[:permission], @property_hash[:key], range_end)
+    @property_hash[:range_end] = range_end
   end
 end

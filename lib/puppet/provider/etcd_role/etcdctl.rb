@@ -30,12 +30,12 @@ Puppet::Type.type(:etcd_role).provide(:etcdctl, parent: Puppet::Provider::Etcdct
   end
 
   def create
-    etcdctl(['role', 'add', @resource['name']])
+    etcdctl(['role', 'add', @resource[:name]])
     @property_hash[:ensure] = :present
   end
 
   def destroy
-    etcdctl(['role', 'delete', @resource['name']])
+    etcdctl(['role', 'delete', @property_hash[:name]])
     @property_hash.clear
   end
 end
