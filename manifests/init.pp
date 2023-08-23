@@ -78,6 +78,14 @@
 #   Wether to purge unmanaged role permissions or not
 #   Default: true
 #
+# @param users
+#   `etcd_user` resources to create.
+#   Default: {}
+#
+# @param purge_users
+#   Wether to purge unmanaged users or not
+#   Default: true
+#
 class etcd (
   Array[String]         $package_names          = ['etcd'],
   Variant[Hash, String] $config                 = {
@@ -97,6 +105,8 @@ class etcd (
   Boolean               $purge_roles            = true,
   Hash[String, Hash]    $role_permissions       = {},
   Boolean               $purge_role_permissions = true,
+  Hash[String, Hash]    $users                  = {},
+  Boolean               $purge_users            = true,
 ) {
   contain etcd::install
   contain etcd::config
