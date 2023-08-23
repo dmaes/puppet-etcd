@@ -24,6 +24,7 @@ operating system's package manager
 
 * [`etcd_role`](#etcd_role): @summary Manage an etcd role
 * [`etcd_role_permission`](#etcd_role_permission): @summary Manage an etcd role permissions
+* [`etcd_user`](#etcd_user): @summary Manage etcd users. This resource does not manage user passwords, since etcd doesn't provide the necessary endpoints to do this clean
 
 ### Functions
 
@@ -57,6 +58,8 @@ The following parameters are available in the `etcd` class:
 * [`purge_roles`](#-etcd--purge_roles)
 * [`role_permissions`](#-etcd--role_permissions)
 * [`purge_role_permissions`](#-etcd--purge_role_permissions)
+* [`users`](#-etcd--users)
+* [`purge_users`](#-etcd--purge_users)
 
 ##### <a name="-etcd--package_names"></a>`package_names`
 
@@ -215,6 +218,24 @@ Default: true
 
 Default value: `true`
 
+##### <a name="-etcd--users"></a>`users`
+
+Data type: `Hash[String, Hash]`
+
+`etcd_user` resources to create.
+Default: {}
+
+Default value: `{}`
+
+##### <a name="-etcd--purge_users"></a>`purge_users`
+
+Data type: `Boolean`
+
+Wether to purge unmanaged users or not
+Default: true
+
+Default value: `true`
+
 ## Resource types
 
 ### <a name="etcd_role"></a>`etcd_role`
@@ -302,6 +323,47 @@ The name of the role permission. Must be of `${role}:${key}` format.
 
 The specific backend to use for this `etcd_role_permission` resource. You will seldom need to specify this --- Puppet
 will usually discover the appropriate provider for your platform.
+
+### <a name="etcd_user"></a>`etcd_user`
+
+@summary
+Manage etcd users.
+This resource does not manage user passwords, since etcd doesn't provide the necessary endpoints to do this cleanly.
+Users will be created without password (aka: only cert auth allowed), and manually configured passwords will be ignored.
+
+#### Properties
+
+The following properties are available in the `etcd_user` type.
+
+##### `ensure`
+
+Valid values: `present`, `absent`
+
+The basic property that the resource should be in.
+
+Default value: `present`
+
+##### `roles`
+
+The list of roles to grant to the users.
+
+#### Parameters
+
+The following parameters are available in the `etcd_user` type.
+
+* [`name`](#-etcd_user--name)
+* [`provider`](#-etcd_user--provider)
+
+##### <a name="-etcd_user--name"></a>`name`
+
+namevar
+
+The name of the user.
+
+##### <a name="-etcd_user--provider"></a>`provider`
+
+The specific backend to use for this `etcd_user` resource. You will seldom need to specify this --- Puppet will usually
+discover the appropriate provider for your platform.
 
 ## Functions
 
