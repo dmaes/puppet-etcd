@@ -30,7 +30,7 @@ class etcd::auth {
     exec { 'etcd::auth::disable':
       path    => $facts['path'],
       # command => "${etcdctl} auth disable",
-      command => $auth_disabled,
+      command => "${etcdctl} auth status; /bin/false",
       unless  => $auth_disabled,
     }
   }
