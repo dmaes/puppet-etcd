@@ -11,10 +11,21 @@ class etcd::auth {
     before => Exec['etcd::auth'],
   }
 
+  Etcd_role_permission {
+    before => Exec['etcd::auth'],
+  }
+
   create_resources('etcd_role', $etcd::roles)
+  create_resources('etcd_role_permission', $etcd::role_permissions)
 
   if $etcd::purge_roles {
     resources { 'etcd_role':
+      purge => true,
+    }
+  }
+
+  if $etcd::purge_role_permissions {
+    resources { 'etcd_role_permission':
       purge => true,
     }
   }
