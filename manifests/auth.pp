@@ -18,8 +18,6 @@ class etcd::auth {
   $etcdctl = "env ${env} ETCDCTL_WRITE_OUT='simple' etcdctl"
   $auth_disabled = "${etcdctl} auth status | grep 'Authentication Status: false'"
 
-  notify { $auth_disabled: }
-
   if $etcd::auth {
     exec { 'etcd::auth':
       path    => $facts['path'],
