@@ -3,6 +3,7 @@
 This puppet module manages [etcd](https://etcd.io).
 It currently uses the operating system's package manager to install the required software.
 Repo management is not supported.
+Only tested on etcd v3 api.
 
 ## Usage
 
@@ -12,11 +13,11 @@ A simple include should cover most use-cases.
 include etcd
 ```
 
-Alternatively, the etc class accepts following parameters:
+Alternatively, the etcd class accepts following parameters:
 
 ```puppet
-class {'etc':
-  package_names     => ['etc'],
+class {'etcd':
+  package_names     => ['etcd'],
   config            =>  {
     'name'     => $facts['networking']['fqdn'],
     'data-dir' => '/var/lib/etcd',
