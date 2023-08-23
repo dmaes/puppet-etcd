@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-Puppet::Type.newtype(:etcd_role_permission) do
+Puppet::Type.newtype(:etcd_user) do
   @doc = <<-DOC
     @summary
       Manage etcd users.
