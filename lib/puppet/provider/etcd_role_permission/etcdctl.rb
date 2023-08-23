@@ -16,7 +16,9 @@ Puppet::Type.type(:etcd_role_permission).provide(:etcdctl, parent: Puppet::Provi
 
   def self.instances
     instances = []
-    etcdctl(['role', 'list'])['roles'].each do |role_name|
+    role_list = etcdctl(['role', 'list'])
+    return instances unless role_list.key?('roles')
+    role_list['roles'].each do |role_name|
       role = etcdctl(['role', 'get', role_name])
       next unless role.key?('perm')
       role['perm'].each do |perm|
