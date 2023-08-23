@@ -23,6 +23,12 @@ operating system's package manager
 ### Resource types
 
 * [`etcd_role`](#etcd_role): @summary Manage an etcd role
+* [`etcd_role_permission`](#etcd_role_permission): @summary Manage an etcd role permissions
+
+### Functions
+
+* [`etcd::prefix_range_end`](#etcd--prefix_range_end): Calculates the range-end for a given prefix.
+Can be used for the `range_end` parameter of `etcd_role_permission`, to grant prefix.
 
 ## Classes
 
@@ -49,6 +55,8 @@ The following parameters are available in the `etcd` class:
 * [`auth`](#-etcd--auth)
 * [`roles`](#-etcd--roles)
 * [`purge_roles`](#-etcd--purge_roles)
+* [`role_permissions`](#-etcd--role_permissions)
+* [`purge_role_permissions`](#-etcd--purge_role_permissions)
 
 ##### <a name="-etcd--package_names"></a>`package_names`
 
@@ -189,6 +197,24 @@ Default: true
 
 Default value: `true`
 
+##### <a name="-etcd--role_permissions"></a>`role_permissions`
+
+Data type: `Hash[String, Hash]`
+
+`etcd_role_permission` resources to create.
+Default: {}
+
+Default value: `{}`
+
+##### <a name="-etcd--purge_role_permissions"></a>`purge_role_permissions`
+
+Data type: `Boolean`
+
+Wether to purge unmanaged role permissions or not
+Default: true
+
+Default value: `true`
+
 ## Resource types
 
 ### <a name="etcd_role"></a>`etcd_role`
@@ -225,4 +251,76 @@ The name of the role.
 
 The specific backend to use for this `etcd_role` resource. You will seldom need to specify this --- Puppet will usually
 discover the appropriate provider for your platform.
+
+### <a name="etcd_role_permission"></a>`etcd_role_permission`
+
+@summary
+Manage an etcd role permissions
+
+#### Properties
+
+The following properties are available in the `etcd_role_permission` type.
+
+##### `ensure`
+
+Valid values: `present`, `absent`
+
+The basic property that the resource should be in.
+
+Default value: `present`
+
+##### `key`
+
+The key to grant permission on. (required)
+
+##### `permission`
+
+The permission type, must be one of `(read|write|readwrite)`.
+
+##### `range_end`
+
+Optional range end to grant permission on. Use `etcd::prefix_range_end($key)` if you want to grant prefix.
+
+##### `role`
+
+The name of the role to grant to. (required)
+
+#### Parameters
+
+The following parameters are available in the `etcd_role_permission` type.
+
+* [`name`](#-etcd_role_permission--name)
+* [`provider`](#-etcd_role_permission--provider)
+
+##### <a name="-etcd_role_permission--name"></a>`name`
+
+namevar
+
+The name of the role permission. Must be of `${role}:${key}` format.
+
+##### <a name="-etcd_role_permission--provider"></a>`provider`
+
+The specific backend to use for this `etcd_role_permission` resource. You will seldom need to specify this --- Puppet
+will usually discover the appropriate provider for your platform.
+
+## Functions
+
+### <a name="etcd--prefix_range_end"></a>`etcd::prefix_range_end`
+
+Type: Ruby 4.x API
+
+Calculates the range-end for a given prefix.
+Can be used for the `range_end` parameter of `etcd_role_permission`, to grant prefix.
+
+#### `etcd::prefix_range_end(String $prefix)`
+
+The etcd::prefix_range_end function.
+
+Returns: `Any` The range-end for the given prefix.
+
+##### `prefix`
+
+Data type: `String`
+
+The prefix key to calculate the range-end for
 
