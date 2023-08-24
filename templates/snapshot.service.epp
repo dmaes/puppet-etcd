@@ -1,0 +1,15 @@
+<%- | $env, $path | %>
+# File managed by puppet. RESISTANCE IS FUTILE!
+
+[Unit]
+Description=ETCD snapshot
+RefuseManualStart=no
+RefuseManualStop=yes
+
+[Service]
+Type=oneshot
+User=etcd
+<% $env.each |$env, $val| { -%>
+Environment=<%= $env %>=<%= $val %>
+<% } -%>
+ExecStart=/usr/bin/etcdctl snapshot save <%= $path %>

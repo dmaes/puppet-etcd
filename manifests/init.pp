@@ -86,6 +86,18 @@
 #   Wether to purge unmanaged users or not
 #   Default: true
 #
+# @param snapshot
+#   Add systemd timer to create snapshots in $snapshot_path
+#   Default: false
+#
+# @param snapshot_path
+#   The path to save snapshots to, if $snapshot is enabled
+#   Default: /var/lib/etcd/snapshot.db
+#
+# @param snapshot_oncalendar
+#   The systemd OnCalendar timestamp to run snapshotting
+#   Default: *-*-* 00:00:00
+#
 class etcd (
   Array[String]         $package_names          = ['etcd'],
   Variant[Hash, String] $config                 = {
@@ -107,14 +119,19 @@ class etcd (
   Boolean               $purge_role_permissions = true,
   Hash[String, Hash]    $users                  = {},
   Boolean               $purge_users            = true,
+  Boolean               $snapshot               = false,
+  Stdlib::Unixpath      $snapshot_path          = '/var/lib/etcd/snapshot.db',
+  String                $snapshot_oncalendar    = '*-*-* 00:00:00',
 ) {
   contain etcd::install
   contain etcd::config
   contain etcd::service
   contain etcd::auth
+  contain etcd::snapshot
 
   Class['etcd::install']
   -> Class['etcd::config']
   -> Class['etcd::service']
   -> Class['etcd::auth']
+  -> Class['etcd::snapshot']
 }
