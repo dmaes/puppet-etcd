@@ -1,0 +1,15 @@
+<% | $oncalendar | -%>
+# File managed by puppet. RESISTANCE IS FUTILE!
+
+[Unit]
+Description=ETCD snapshot
+RefuseManualStart=no
+RefuseManualStop=no
+
+[Timer]
+Persistent=false
+Unit=etcd-snapshot.service
+OnCalendar=<%= $oncalendar %>
+
+[Install]
+WantedBy=default.target

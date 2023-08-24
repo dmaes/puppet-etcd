@@ -19,6 +19,7 @@ and does not download binaries from a release page.
 * `etcd::install`: This class handles the etcd installation using the
 operating system's package manager
 * `etcd::service`: This class manages the etcd systemd service
+* `etcd::snapshot`: This class manages a systemd timer to create snapshots
 
 ### Resource types
 
@@ -60,6 +61,9 @@ The following parameters are available in the `etcd` class:
 * [`purge_role_permissions`](#-etcd--purge_role_permissions)
 * [`users`](#-etcd--users)
 * [`purge_users`](#-etcd--purge_users)
+* [`snapshot`](#-etcd--snapshot)
+* [`snapshot_path`](#-etcd--snapshot_path)
+* [`snapshot_oncalendar`](#-etcd--snapshot_oncalendar)
 
 ##### <a name="-etcd--package_names"></a>`package_names`
 
@@ -235,6 +239,33 @@ Wether to purge unmanaged users or not
 Default: true
 
 Default value: `true`
+
+##### <a name="-etcd--snapshot"></a>`snapshot`
+
+Data type: `Boolean`
+
+Add systemd timer to create snapshots in $snapshot_path
+Default: false
+
+Default value: `false`
+
+##### <a name="-etcd--snapshot_path"></a>`snapshot_path`
+
+Data type: `Stdlib::Unixpath`
+
+The path to save snapshots to, if $snapshot is enabled
+Default: /var/lib/etcd/snapshot.db
+
+Default value: `'/var/lib/etcd/snapshot.db'`
+
+##### <a name="-etcd--snapshot_oncalendar"></a>`snapshot_oncalendar`
+
+Data type: `String`
+
+The systemd OnCalendar timestamp to run snapshotting
+Default: *-*-* 00:00:00
+
+Default value: `'*-*-* 00:00:00'`
 
 ## Resource types
 
