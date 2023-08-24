@@ -1,6 +1,6 @@
 {
   "name": "dmaes-etcd",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "author": "dmaes",
   "summary": "Puppet module for package-based etcd installs",
   "license": "Apache-2.0",
