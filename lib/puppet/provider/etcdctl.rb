@@ -15,6 +15,10 @@ class Puppet::Provider::Etcdctl < Puppet::Provider
 
   commands cmd_etcdctl: '/usr/bin/etcdctl'
 
+  confine do
+    etcdctl(['endpoint', 'health'])
+  end
+
   def self.etcdctl(args)
     cfg = YAML.load_file(cfg_file)
     cfg['env'].each do |key, value|
