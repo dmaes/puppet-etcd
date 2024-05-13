@@ -15,7 +15,7 @@ class Puppet::Provider::Etcdctl < Puppet::Provider
 
   commands cmd_etcdctl: '/usr/bin/etcdctl'
 
-  confine do
+  confine _ do
     etcdctl(['endpoint', 'health'])
   end
 
