@@ -35,7 +35,10 @@ class Puppet::Provider::Etcdctl < Puppet::Provider
 
   # Run health check before running etcdctl
   def self.h_etcdctl(args)
-    Puppet::Util::Errors.fail("ETCD not healthy") unless etcdctl(['endpoint', 'health'])[0]['health']
+    unless etcdctl(['endpoint', 'health'])[0]['health'] do
+      Puppet::Util::Errors.fail("ETCD endpoint unhealthy")
+      return nil
+    end
     etcdctl(args)
   end
 
