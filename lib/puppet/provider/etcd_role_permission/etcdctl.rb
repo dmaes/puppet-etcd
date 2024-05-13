@@ -16,10 +16,10 @@ Puppet::Type.type(:etcd_role_permission).provide(:etcdctl, parent: Puppet::Provi
 
   def self.instances
     instances = []
-    role_list = etcdctl(['role', 'list'])
+    role_list = h_etcdctl(['role', 'list'])
     return instances unless role_list.key?('roles')
     role_list['roles'].each do |role_name|
-      role = etcdctl(['role', 'get', role_name])
+      role = h_etcdctl(['role', 'get', role_name])
       next unless role.key?('perm')
       role['perm'].each do |perm|
         key = Base64.decode64(perm['key'])
@@ -60,11 +60,11 @@ Puppet::Type.type(:etcd_role_permission).provide(:etcdctl, parent: Puppet::Provi
   end
 
   def self.grant(role, permission, key, range_end)
-    etcdctl(['role', 'grant-permission', role, permission, key, range_end])
+    h_etcdctl(['role', 'grant-permission', role, permission, key, range_end])
   end
 
   def self.revoke(role, key, range_end)
-    etcdctl(['role', 'revoke-permission', role, key, range_end])
+    h_etcdctl(['role', 'revoke-permission', role, key, range_end])
   end
 
   mk_resource_methods
