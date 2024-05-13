@@ -40,6 +40,6 @@ class Puppet::Provider::Etcdctl < Puppet::Provider
   end
 
   def h_etcdctl(args)
-    self.class.etcdctl(args)
+    self.class.h_etcdctl(args)
   end
 end
