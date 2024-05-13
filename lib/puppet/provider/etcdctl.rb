@@ -15,18 +15,6 @@ class Puppet::Provider::Etcdctl < Puppet::Provider
 
   commands cmd_etcdctl: '/usr/bin/etcdctl'
 
-  confine :true => -> { is_healthy? }
-
-  def self.is_healthy?
-    # return false when running on master in jruby, Puppet::Util::Execution.execute does not work in jRuby.
-    return false if Puppet::Util::Platform.jruby?
-    begin
-      etcdctl(['endpoint', 'health'])[0]['health']
-    rescue
-      false
-    end
-  end
-
   def self.etcdctl(args)
     cfg = YAML.load_file(cfg_file)
     cfg['env'].each do |key, value|
@@ -42,6 +30,16 @@ class Puppet::Provider::Etcdctl < Puppet::Provider
   end
 
   def etcdctl(args)
+    self.class.etcdctl(args)
+  end
+
+  # Run health check before running etcdctl
+  def self.h_etcdctl(args)
+    Puppet::Util::Errors.fail("ETCD not healthy") unless etcdctl(['endpoint', 'health'])[0]['health']
+    etcdctl(args)
+  end
+
+  def h_etcdctl(args)
     self.class.etcdctl(args)
   end
 end

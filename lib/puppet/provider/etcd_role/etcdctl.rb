@@ -7,10 +7,10 @@ Puppet::Type.type(:etcd_role).provide(:etcdctl, parent: Puppet::Provider::Etcdct
 
   def self.instances
     instances = []
-    role_list = etcdctl(['role', 'list'])
+    role_list = h_etcdctl(['role', 'list'])
     return instances unless role_list.key?('roles')
     role_list['roles'].each do |role_name|
-      # role = etcdctl(['role', 'get', role_name])
+      # role = h_etcdctl(['role', 'get', role_name])
       instances << new(
         ensure: :present,
         name: role_name,
@@ -32,12 +32,12 @@ Puppet::Type.type(:etcd_role).provide(:etcdctl, parent: Puppet::Provider::Etcdct
   end
 
   def create
-    etcdctl(['role', 'add', @resource[:name]])
+    h_etcdctl(['role', 'add', @resource[:name]])
     @property_hash[:ensure] = :present
   end
 
   def destroy
-    etcdctl(['role', 'delete', @property_hash[:name]])
+    h_etcdctl(['role', 'delete', @property_hash[:name]])
     @property_hash.clear
   end
 end
